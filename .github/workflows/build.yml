@@ -15,6 +15,9 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
+      - name: 중복 XML 아이콘 제거
+        run: find app/src/main/res/mipmap-* -name "ic_launcher*.xml" -delete
+
       - name: Gradle 8.9 설치
         uses: gradle/actions/setup-gradle@v3
         with:
