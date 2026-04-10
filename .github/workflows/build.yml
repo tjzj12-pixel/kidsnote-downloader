@@ -15,13 +15,13 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Gradle Wrapper 생성
-        run: gradle wrapper --gradle-version=8.4 --distribution-type=bin
+      - name: Gradle 8.9 설치
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.9'
 
       - name: APK 빌드
-        run: |
-          chmod +x gradlew
-          ./gradlew assembleDebug
+        run: gradle assembleDebug
 
       - name: APK 업로드
         uses: actions/upload-artifact@v4
