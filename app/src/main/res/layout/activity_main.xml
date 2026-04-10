@@ -6,10 +6,16 @@
     <LinearLayout android:id="@+id/loginView"
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:padding="14dp" android:text="키즈노트에 로그인하세요"
-            android:textSize="15sp" android:textColor="#ffffff"
-            android:background="#6a0dad" android:gravity="center"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="#6a0dad" android:orientation="horizontal"
+            android:padding="12dp" android:gravity="center_vertical">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="키즈노트에 로그인하세요"
+                android:textSize="15sp" android:textColor="#ffffff" android:textStyle="bold"/>
+            <Button android:id="@+id/btnGuideLogin" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="사용 가이드"
+                android:textSize="12sp" android:backgroundTint="#ffffff" android:textColor="#6a0dad"/>
+        </LinearLayout>
         <WebView android:id="@+id/webView"
             android:layout_width="match_parent" android:layout_height="match_parent"/>
     </LinearLayout>
@@ -17,10 +23,17 @@
     <LinearLayout android:id="@+id/downloadView"
         android:layout_width="match_parent" android:layout_height="match_parent"
         android:orientation="vertical" android:background="#f3eeff" android:visibility="gone">
-        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:padding="14dp" android:text="📸 키즈노트 다운로더"
-            android:textSize="16sp" android:textStyle="bold"
-            android:textColor="#ffffff" android:background="#6a0dad"/>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:background="#6a0dad" android:orientation="horizontal"
+            android:padding="12dp" android:gravity="center_vertical">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="키즈노트 다운로더"
+                android:textSize="16sp" android:textStyle="bold" android:textColor="#ffffff"/>
+            <Button android:id="@+id/btnGuide" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="사용 가이드"
+                android:textSize="12sp" android:backgroundTint="#ffffff" android:textColor="#6a0dad"/>
+        </LinearLayout>
 
         <ScrollView android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1">
             <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
@@ -31,40 +44,59 @@
                     app:cardCornerRadius="10dp" app:cardElevation="2dp">
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:orientation="vertical" android:padding="12dp">
+
                         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                             android:text="아이 ID" android:textSize="11sp" android:textColor="#777"
                             android:textStyle="bold" android:layout_marginBottom="4dp"/>
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:orientation="horizontal" android:layout_marginBottom="10dp">
+                            android:orientation="horizontal" android:layout_marginBottom="12dp">
                             <EditText android:id="@+id/childIdInput" android:layout_width="0dp"
                                 android:layout_height="wrap_content" android:layout_weight="1"
-                                android:hint="예: 3630261" android:inputType="number" android:padding="8dp"
-                                android:background="@drawable/input_bg" android:textColor="#000000" android:textColorHint="#999999"/>
-                            <Button android:id="@+id/btnAutoDetect"
-                                android:layout_width="wrap_content" android:layout_height="wrap_content"
-                                android:layout_marginStart="8dp" android:text="자동 감지"
-                                android:textSize="12sp" android:backgroundTint="#e8d5f5" android:textColor="#6a0dad"/>
+                                android:hint="예: 4985393" android:inputType="text"
+                                android:padding="8dp" android:textColor="#000000"
+                                android:textColorHint="#999999" android:background="@drawable/input_bg"/>
+                            <Button android:id="@+id/btnAutoDetect" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:layout_marginStart="8dp"
+                                android:text="자동 감지" android:textSize="12sp"
+                                android:backgroundTint="#e8d5f5" android:textColor="#6a0dad"/>
+                        </LinearLayout>
+
+                        <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:text="저장 폴더" android:textSize="11sp" android:textColor="#777"
+                            android:textStyle="bold" android:layout_marginBottom="4dp"/>
+                        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                            android:orientation="horizontal" android:background="@drawable/input_bg"
+                            android:gravity="center_vertical" android:layout_marginBottom="4dp">
+                            <TextView android:id="@+id/folderPathText" android:layout_width="0dp"
+                                android:layout_height="wrap_content" android:layout_weight="1"
+                                android:padding="8dp" android:text="폴더를 선택해주세요"
+                                android:textColor="#555555" android:textSize="12sp"
+                                android:singleLine="true" android:ellipsize="start"/>
+                            <Button android:id="@+id/btnFolderPick" android:layout_width="wrap_content"
+                                android:layout_height="wrap_content" android:text="선택"
+                                android:textSize="12sp" android:backgroundTint="#9c27b0"
+                                android:textColor="#ffffff" android:layout_margin="4dp"/>
                         </LinearLayout>
                         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:text="저장 폴더명" android:textSize="11sp" android:textColor="#777"
-                            android:textStyle="bold" android:layout_marginBottom="4dp"/>
-                        <EditText android:id="@+id/folderInput" android:layout_width="match_parent"
-                            android:layout_height="wrap_content" android:hint="Kidsnote" android:padding="8dp"
-                            android:background="@drawable/input_bg" android:layout_marginBottom="10dp"/>
+                            android:text="* 다운로드 전 반드시 폴더를 선택해주세요"
+                            android:textSize="10sp" android:textColor="#e53935" android:layout_marginBottom="12dp"/>
+
                         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:text="기간 필터 (빈칸 = 전체)" android:textSize="11sp" android:textColor="#777"
-                            android:textStyle="bold" android:layout_marginBottom="4dp"/>
+                            android:text="기간 필터 (빈칸 = 전체)" android:textSize="11sp"
+                            android:textColor="#777" android:textStyle="bold" android:layout_marginBottom="4dp"/>
                         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                             android:orientation="horizontal">
                             <EditText android:id="@+id/fromInput" android:layout_width="0dp"
                                 android:layout_height="wrap_content" android:layout_weight="1"
                                 android:hint="from: YYYY-MM" android:padding="8dp"
-                                android:background="@drawable/input_bg" android:textColor="#000000" android:textColorHint="#999999"/>
+                                android:textColor="#000000" android:textColorHint="#999999"
+                                android:background="@drawable/input_bg"/>
                             <View android:layout_width="8dp" android:layout_height="1dp"/>
                             <EditText android:id="@+id/toInput" android:layout_width="0dp"
                                 android:layout_height="wrap_content" android:layout_weight="1"
                                 android:hint="to: YYYY-MM" android:padding="8dp"
-                                android:background="@drawable/input_bg" android:textColor="#000000" android:textColorHint="#999999"/>
+                                android:textColor="#000000" android:textColorHint="#999999"
+                                android:background="@drawable/input_bg"/>
                         </LinearLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -104,8 +136,7 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:orientation="vertical" android:padding="12dp">
                         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:text="STATUS" android:textSize="10sp" android:textColor="#aaa"
-                            android:layout_marginBottom="4dp"/>
+                            android:text="STATUS" android:textSize="10sp" android:textColor="#aaa" android:layout_marginBottom="4dp"/>
                         <TextView android:id="@+id/statusText" android:layout_width="match_parent"
                             android:layout_height="wrap_content" android:text="파일: 0개  |  에러: 0건"
                             android:fontFamily="monospace" android:textSize="13sp" android:textColor="#000000"/>
@@ -117,14 +148,12 @@
                     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                         android:orientation="vertical" android:padding="12dp">
                         <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                            android:text="LOG" android:textSize="10sp" android:textColor="#aaa"
-                            android:layout_marginBottom="6dp"/>
-                        <ScrollView android:id="@+id/scrollView"
-                            android:layout_width="match_parent" android:layout_height="220dp"
-                            android:background="#1a1a2e" android:padding="8dp">
-                            <TextView android:id="@+id/logView"
-                                android:layout_width="match_parent" android:layout_height="wrap_content"
-                                android:textSize="11sp" android:fontFamily="monospace" android:textColor="#a8d8a8"/>
+                            android:text="LOG" android:textSize="10sp" android:textColor="#aaa" android:layout_marginBottom="6dp"/>
+                        <ScrollView android:id="@+id/scrollView" android:layout_width="match_parent"
+                            android:layout_height="220dp" android:background="#1a1a2e" android:padding="8dp">
+                            <TextView android:id="@+id/logView" android:layout_width="match_parent"
+                                android:layout_height="wrap_content" android:textSize="11sp"
+                                android:fontFamily="monospace" android:textColor="#a8d8a8"/>
                         </ScrollView>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
