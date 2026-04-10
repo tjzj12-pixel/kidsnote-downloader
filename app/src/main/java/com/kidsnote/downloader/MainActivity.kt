@@ -144,6 +144,12 @@ class MainActivity : AppCompatActivity() {
         fileCount = 0; errorCount = 0
         logView.text = ""
         setButtons(true)
+        if (from.isEmpty() && to.isEmpty()) {
+            val cal = java.util.Calendar.getInstance()
+            val nowY = cal.get(java.util.Calendar.YEAR)
+            val nowM = cal.get(java.util.Calendar.MONTH) + 1
+            runOnUiThread { log("팁: 기간 미입력 시 전체 조회 (느림). 테스트는 최근 월만 입력 권장") }
+        }
 
         downloadJob = lifecycleScope.launch(Dispatchers.IO) {
             try {
@@ -178,23 +184,35 @@ class MainActivity : AppCompatActivity() {
 
     private fun downloadReports(childId: String, from: String, to: String, root: String) {
         log("알림장 다운로드 시작...")
-        for (month in getMonthRange(from, to)) {
+        log("  쿠키 길이: ${cookies.length}자")
+        val months = getMonthRange(from, to)
+        log("  조회 기간: ${months.firstOrNull()} ~ ${months.lastOrNull()} (${months.size}개월)")
+        for (month in months) {
             if (downloadJob?.isActive != true) break
             var url: String? = "$BASE/children/$childId/reports/?page_size=100&tz=$TZ&child=$childId&date_written=$month"
             var cnt = 0
             while (url != null && downloadJob?.isActive == true) {
                 val data = apiGet(url)
+                val total = data.optInt("count", -1)
                 val results = data.optJSONArray("results") ?: break
+                if (cnt == 0 && total >= 0) log("  $month: 서버 총 ${total}건")
                 cnt += results.length()
                 for (i in 0 until results.length()) {
                     if (downloadJob?.isActive != true) break
                     val rp   = results.getJSONObject(i)
                     val dw   = rp.optString("date_written", "$month-01")
-                    val imgs = rp.optJSONArray("attached_images") ?: continue
+                    val imgs = rp.optJSONArray("attached_images")
+                    val imgCnt = imgs?.length() ?: 0
+                    if (imgCnt == 0) {
+                        log("  $dw: 사진 없음 (id=${rp.optInt("id")})")
+                        continue
+                    }
                     val ym   = dw.take(7)
                     val day  = if (dw.length >= 10) dw.substring(8, 10) else "01"
-                    for (j in 0 until imgs.length()) {
-                        val imgUrl = imgs.getJSONObject(j).optString("original", "")
+                    for (j in 0 until imgCnt) {
+                        val imgObj = imgs!!.getJSONObject(j)
+                        val imgUrl = imgObj.optString("original", "")
+                        log("  이미지URL: ${imgUrl.take(60)}...")
                         if (imgUrl.isEmpty()) continue
                         dlFile(imgUrl, "$root/알림장/$ym/$day", "${rp.optInt("id")}_${j+1}.jpg")
                     }
@@ -202,7 +220,7 @@ class MainActivity : AppCompatActivity() {
                 val next = data.optString("next")
                 url = if (next.isEmpty() || next == "null") null else next
             }
-            if (cnt > 0) log("  $month: ${cnt}건")
+            if (cnt > 0) log("  $month: ${cnt}건 처리")
         }
     }
 
