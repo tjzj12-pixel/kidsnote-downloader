@@ -1,0 +1,7 @@
+<resources>
+    <style name="Theme.KidsnoteDownloader" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">#9C27B0</item>
+        <item name="colorPrimaryVariant">#6A0DAD</item>
+        <item name="colorOnPrimary">#FFFFFF</item>
+    </style>
+</resources>
